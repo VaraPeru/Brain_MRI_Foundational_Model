@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#SBATCH -J brainiac
+#SBATCH -p general
+#SBATCH -o filename_%j.txt
+#SBATCH -e filename_%j.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=vaperu@iu.edu
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=30:00:00
+#SBATCH --mem=16G
+#SBATCH -A r01939
+
+module load python
+
+source /N/slate/vaperu/home/Latentspace/brainiac/brainiac/bin/activate
+
+export PYTHONPATH=/N/slate/vaperu/home/Latentspace/brainiac/brainiac/BrainIAC/src
+
+pip install monai==1.3.2
+
+python extract_brainiac_fets24.py \
+  --checkpoint /N/slate/vaperu/home/Latentspace/brainiac/brainiac/BrainIAC/src/checkpoints/BrainIAC.ckpt \
+  --data_dir /N/slate/vaperu/Cropped_seperate/Training \
+  --output_dir /N/slate/vaperu/home/Latentspace/brainiac/output_cropped \
+  --missing_ok
