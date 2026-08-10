@@ -1,0 +1,34 @@
+data:
+  train_csv: "./data/csvs/brats_train.csv"
+  val_csv:   "./data/csvs/brats_val.csv"
+
+
+model:
+  img_size:     [96, 96, 96]
+  in_channels:  1
+  out_channels: 1
+
+pretrain:
+  simclr_checkpoint_path: "path_to_Brainiac_checkpoint"
+
+training:
+  batch_size:             10
+  num_workers:            4
+  max_epochs:            100
+  lr:                 5e-4
+  weight_decay:       1e-4
+  sw_batch_size:         2
+  accumulate_grad_batches: 1
+  freeze:                "yes"  # Set to "yes" to freeze ViT backbone, "no" to train end-to-end
+
+output:
+  output_dir: "./inference"
+
+logger:
+  save_dir: "/media/data/divyanshu/foundation_model/Brainiac_revision/simclrvit_finetuning/frozen_downstream_checkpoints"
+  save_name: "seg_best-model-{epoch:02d}-{val_dice:.2f}"
+  run_name: "Seg_finetune"
+  project_name: "segmentation_finetune"
+
+gpu:
+  visible_device: "0" 
