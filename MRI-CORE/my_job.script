@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#SBATCH -J mricore
+#SBATCH -p general
+#SBATCH -o filename_%j.txt
+#SBATCH -e filename_%j.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=vaperu@iu.edu
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=40:00:00
+#SBATCH --mem=16G
+#SBATCH -A r01939
+
+module load python
+
+source /N/slate/vaperu/home/Latentspace/MRICORE/mricore/bin
+
+pip install nibabel torch einops torchvision
+
+
+python extract_mricore_fets24.py \
+  --checkpoint /N/slate/vaperu/home/Latentspace/MRICORE/mri_foundation/pretrained_weights/mri_foundation.pth \
+  --data_dir /N/slate/vaperu/Cropped_seperate/Training \
+  --output_dir /N/slate/vaperu/home/Latentspace/MRICORE/mri_foundation/MRICORE/output_cropped \
+  --missing_ok

@@ -1,0 +1,3 @@
+einops
+scikit-image
+monai==1.5
